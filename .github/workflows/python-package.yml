@@ -12,29 +12,32 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
-
+    runs-on: windows-latest  # 确保环境一致性 
+ 
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v3
+    - uses: actions/checkout@v4 
+ 
+    - name: Set up Python 3.9 
+      uses: actions/setup-python@v3 
       with:
         python-version: '3.9'
-
-    - name: Install dependencies
+ 
+    - name: Install dependencies 
       run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pytest
-        if (Test-Path requirements.txt) { pip install -r requirements.txt }
-
-    - name: Build EXE
+        python -m pip install --upgrade pip 
+        pip install flake8 pytest pyinstaller 
+        if (Test-Path requirements.txt)  { pip install -r requirements.txt  }
+ 
+    # 新增测试步骤，优先运行测试 
+    - name: Run pytest 
+      run: pytest tests/ -v  # -v 显示详细信息 
+ 
+    - name: Build EXE 
       run: |
-        python -m pip install pyinstaller
-        pyinstaller -F --noconsole --icon=images\\logo.ico main.py  # 使用 --icon 来指定图标文件
-
-    - name: Upload EXE as artifact
-      uses: actions/upload-artifact@v3
+        pyinstaller -F --noconsole --icon=images/logo.ico  main.py   # 修正路径分隔符 
+ 
+    - name: Upload EXE as artifact 
+      uses: actions/upload-artifact@v3 
       with:
-        name: windows-exe
-        path: dist/main.exe  # 确保路径和文件名正确
+        name: windows-exe 
+        path: dist/main.exe  
