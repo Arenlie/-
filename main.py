@@ -503,7 +503,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.label.setText("未读取到data_all文件，请先导入数据")
             return
 
-        output_openfile_name = QFileDialog.getSaveFileName(self, "设置保存路径", "./平台带入表.xlsx", "excel files(*.xlsx)")
+        output_openfile_name = QFileDialog.getSaveFileName(self, "设置保存路径", "./平台导入表.xlsx", "excel files(*.xlsx)")
         self.output_path_1 = output_openfile_name[0]
         if self.output_path_1 == '':
             return
